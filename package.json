@@ -12,6 +12,8 @@
     "customize-cra": "^0.9.1",
     "d3": "^5.16.0",
     "echarts": "^4.7.0",
+    "echarts-for-react": "^2.0.15-beta.1",
+    "echarts-gl": "^1.1.1",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "react": "^16.13.1",

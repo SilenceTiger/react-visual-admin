@@ -1,3 +1,4 @@
+@primary-color: #1890ff;
 .primary-layout {
   height: 100%;
   .primary-sider {
@@ -15,11 +16,25 @@
       transition: color 0.3s;
       float: left;
       &:hover {
-        color: #1890ff;
+        color: @primary-color;
       }
     }
     .ant-breadcrumb {
       margin-top: 19px;
+      float: left;
+    }
+
+    .user-info {
+      float: right;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: url(../assets/images/user-logo.jpg);
+      background-size: cover;
+      margin-top: 12px;
+      margin-right: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
   }
   .primary-content {
@@ -27,5 +42,51 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 10px;
+  }
+}
+
+.login-layout {
+  height: 100%;
+  position: relative;
+  .login-background {
+    height: 100% !important;
+    //background: url(../assets/images/universe.jpg);
+    background-size: cover;
+  }
+  .login-form {
+    position: absolute;
+    width: 320px;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 5px;
+    background-color: rgba(30, 148, 255, 0.1);
+    box-shadow: 0 0 10px rgba(30, 148, 255, 1);
+    padding: 20px;
+    padding-bottom: 0;
+    .title {
+      font-size: 30px;
+      line-height: 30px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: @primary-color;
+
+      text-shadow: 0 0 5px rgba(30, 148, 255, 0.6);
+    }
+    .ant-input-affix-wrapper {
+      background-color: transparent !important;
+      border: 1px solid @primary-color;
+      input.ant-input {
+        background-color: transparent !important;
+        color: @primary-color;
+      }
+    }
+    .login-icon {
+      color: @primary-color;
+    }
+    .ant-input-password-icon {
+      color: @primary-color;
+    }
   }
 }

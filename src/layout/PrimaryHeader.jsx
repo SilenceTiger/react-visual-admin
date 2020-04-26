@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from "react"
-import { Breadcrumb } from "antd"
+import { Breadcrumb, Dropdown, Menu } from "antd"
 import { useLocation } from "react-router"
+import { useHistory } from "react-router-dom"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import { LayoutContext } from "./PrimaryLayout"
 import menuTree from "./menuTree"
@@ -33,10 +34,21 @@ assembleTree(menuTree, null)
 const PrimaryLayout = () => {
   const layoutContext = useContext(LayoutContext)
   const location = useLocation()
+  const history = useHistory()
   const breadRoute = useMemo(() => {
     const targetMenu = getMenuByPath(menuTree, location.pathname)
     return targetMenu.path ? targetMenu.path.split("-") : []
   }, [location.pathname])
+  const userMenu = (
+    <Menu
+      onClick={() => {
+        localStorage.removeItem("LOGIN")
+        history.push("/login")
+      }}
+    >
+      <Menu.Item>logout</Menu.Item>
+    </Menu>
+  )
   return (
     <div className="primary-header">
       {React.createElement(
@@ -53,6 +65,9 @@ const PrimaryLayout = () => {
           return <Breadcrumb.Item key={index}>{name}</Breadcrumb.Item>
         })}
       </Breadcrumb>
+      <Dropdown overlay={userMenu}>
+        <div className="user-info"></div>
+      </Dropdown>
     </div>
   )
 }

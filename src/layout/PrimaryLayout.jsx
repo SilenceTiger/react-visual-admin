@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Layout } from "antd"
+import { useHistory } from "react-router-dom"
+import LoginLayout from "./LoginLayout"
 import PrimaryMenu from "./PrimaryMenu"
 import PrimaryHeader from "./PrimaryHeader"
 import PrimaryContent from "./PrimaryContent"
@@ -9,10 +11,18 @@ const { Sider } = Layout
 
 export const LayoutContext = React.createContext()
 
-const PrimaryLayout = (props) => {
+const PrimaryLayout = () => {
   const [collapsed, setCollapsed] = useState(false)
   const toggleCollapse = () => {
     setCollapsed(!collapsed)
+  }
+  const history = useHistory()
+
+  // 监听变化 否则react hook不会改变状态
+  useEffect(() => {}, [history])
+
+  if (!localStorage.getItem("LOGIN")) {
+    return <LoginLayout />
   }
   return (
     <LayoutContext.Provider value={{ collapsed, toggleCollapse }}>
