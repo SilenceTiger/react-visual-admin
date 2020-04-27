@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Layout } from "antd"
 import { useHistory } from "react-router-dom"
 import LoginLayout from "./LoginLayout"
@@ -18,9 +18,11 @@ const PrimaryLayout = () => {
   }
   const history = useHistory()
 
-  // 监听变化 否则react hook不会改变状态
-  useEffect(() => {}, [history])
-
+  window.onhashchange = () => {
+    if (history.location.pathname === "/login") {
+      history.push("/")
+    }
+  }
   if (!localStorage.getItem("LOGIN")) {
     return <LoginLayout />
   }

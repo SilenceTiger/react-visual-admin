@@ -37,7 +37,7 @@ const PrimaryLayout = () => {
   const history = useHistory()
   const breadRoute = useMemo(() => {
     const targetMenu = getMenuByPath(menuTree, location.pathname)
-    return targetMenu.path ? targetMenu.path.split("-") : []
+    return targetMenu?.path ? targetMenu.path.split("-") : []
   }, [location.pathname])
   const userMenu = (
     <Menu

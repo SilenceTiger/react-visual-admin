@@ -1,5 +1,4 @@
-import { HomeOutlined, SettingFilled } from "@ant-design/icons"
-
+import { HomeOutlined, CodepenOutlined } from "@ant-design/icons"
 export default [
   {
     name: "Home",
@@ -7,46 +6,29 @@ export default [
     icon: HomeOutlined,
   },
   {
-    name: "Test Function", //后面删除
-    key: "/test",
-    icon: SettingFilled,
-    subMenu: [
-      {
-        name: "Test1",
-        key: "/test/1",
-      },
-      {
-        name: "Test2",
-        key: "/test2/2",
-        subMenu: [
-          {
-            name: "Test3",
-            key: "/test3/3",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Echarts",
-    key: "/echarts",
-    icon: SettingFilled,
-    subMenu: [
-      {
-        name: "Earth",
-        key: "/echarts/earth",
-      },
-    ],
-  },
-  {
-    name: "ThreeJs",
+    name: "Three Start",
     key: "/three",
-    icon: SettingFilled,
+    icon: CodepenOutlined,
     subMenu: [
       {
-        name: "Three",
-        key: "/three/introduce",
+        name: "Introduce",
+        key: "/three/start/introduce",
       },
+      // {
+      //   name: "Geometry",
+      //   key: "/three/start/geometry",
+      // },
     ],
   },
+  // {
+  //   name: "Echarts",
+  //   key: "/echarts",
+  //   icon: SettingFilled,
+  //   subMenu: [
+  //     {
+  //       name: "Earth",
+  //       key: "/echarts/earth",
+  //     },
+  //   ],
+  // },
 ]
