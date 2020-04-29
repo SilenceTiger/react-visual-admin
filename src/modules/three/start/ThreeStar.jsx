@@ -51,6 +51,7 @@ class Introduce extends React.Component {
       this.scene.remove(this.scene.children[i])
     }
     window.cancelAnimationFrame(this.requestAnimationFrame)
+    window.removeEventListener("click", this.onClick)
   }
 
   async init() {
@@ -207,20 +208,24 @@ class Introduce extends React.Component {
 
   //射线来决定第一个点中的物体
   onClick(e) {
-    let offsetTop = this.refs.three.offsetTop
-    let offsetLeft = this.refs.three.offsetLeft
-    let width = this.refs.three.clientWidth
-    let height = this.refs.three.clientHeight
-    var Sx = e.clientX - offsetLeft
-    var Sy = e.clientY - offsetTop
-    let x = (Sx / width) * 2 - 1
-    let y = -(Sy / height) * 2 + 1
-    let raycaster = new THREE.Raycaster()
-    raycaster.setFromCamera(new THREE.Vector2(x, y), this.camera)
-    let intersectsArr = SPHERES.map((item) => item.mesh)
-    var intersects = raycaster.intersectObjects(intersectsArr, false)
-    if (intersects.length > 0) {
-      console.log(intersects[0].object.name)
+    try {
+      let offsetTop = this.refs.three.offsetTop
+      let offsetLeft = this.refs.three.offsetLeft
+      let width = this.refs.three.clientWidth
+      let height = this.refs.three.clientHeight
+      var Sx = e.clientX - offsetLeft
+      var Sy = e.clientY - offsetTop
+      let x = (Sx / width) * 2 - 1
+      let y = -(Sy / height) * 2 + 1
+      let raycaster = new THREE.Raycaster()
+      raycaster.setFromCamera(new THREE.Vector2(x, y), this.camera)
+      let intersectsArr = SPHERES.map((item) => item.mesh)
+      var intersects = raycaster.intersectObjects(intersectsArr, false)
+      if (intersects.length > 0) {
+        console.log(intersects[0].object.name)
+      }
+    } catch {
+      console.log("change page")
     }
   }
 
