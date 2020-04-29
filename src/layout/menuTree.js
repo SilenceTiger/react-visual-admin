@@ -11,13 +11,17 @@ export default [
     icon: CodepenOutlined,
     subMenu: [
       {
-        name: "Introduce",
+        name: "Geometry",
         key: "/three/start/introduce",
       },
-      // {
-      //   name: "Geometry",
-      //   key: "/three/start/geometry",
-      // },
+      {
+        name: "Simple Earth",
+        key: "/three/start/simpleEarth",
+      },
+      {
+        name: "Three Star",
+        key: "/three/start/threeStar",
+      },
     ],
   },
   // {

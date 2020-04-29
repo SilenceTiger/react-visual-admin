@@ -2,9 +2,11 @@ import React from "react"
 import * as THREE from "three"
 import * as OrbitControls from "three-orbitcontrols"
 import delay from "../../../utils/delay"
+import { Vector3 } from "three"
 // const THREE = require("three")
 // const OrbitControls = require("three-orbitcontrols")
 // 两种引入方式都可以
+const earthImg = require("../../../assets/images/earth.jpg")
 
 class Introduce extends React.Component {
   constructor(props) {
@@ -23,9 +25,6 @@ class Introduce extends React.Component {
 
   componentDidMount() {
     this.init()
-    // setInterval(() => {
-    //   this.renderGL()
-    // }, 20)
   }
 
   async init() {
@@ -38,10 +37,10 @@ class Introduce extends React.Component {
 
     //点光源
     let point = new THREE.PointLight(0xffffff)
-    point.position.set(400, 200, 300) //点光源位置
+    point.position.set(400, 0, 0) //点光源位置
     this.scene.add(point) //点光源添加到场景中
     //环境光
-    let ambient = new THREE.AmbientLight(0x444444)
+    let ambient = new THREE.AmbientLight(0xffffff)
     this.scene.add(ambient)
 
     await delay(10)
@@ -67,33 +66,65 @@ class Introduce extends React.Component {
     // controls.addEventListener("change", this.renderGL.bind(this))
   }
 
-  initMesh() {
-    let sphereGeo = new THREE.SphereGeometry(50, 10, 10) //创建一个球体几何对象
-    let cubeGeo = new THREE.BoxGeometry(200, 100, 50) //创建一个立方体几何对象Geometry
-    let cylindeGeo = new THREE.CylinderGeometry(50, 30, 90, 100, 100)
-    let materialLambert = new THREE.MeshLambertMaterial({
-      color: 0x0000ff,
-      opacity: 0.7,
-      transparent: true,
+  async initMesh() {
+    let sphereGeo = new THREE.SphereGeometry(100, 40, 40) //创建一个球体几何对象
+    let ImageLoader = new THREE.ImageLoader()
+    let img = await ImageLoader.load(earthImg)
+    let texture = new THREE.Texture(img)
+    texture.needsUpdate = true
+    let materialBasic = new THREE.MeshPhongMaterial({
+      //color: 0xffff00,
+      //wireframe: true,
+      map: texture,
     })
-    let materialBasic = new THREE.MeshBasicMaterial({
-      color: 0xffff00,
-      wireframe: true,
-    })
-    let materialPhong = new THREE.MeshPhongMaterial({
-      color: 0x0000ff,
-      specular: 0x4488ee,
-      shininess: 12,
-    })
-    this.cubeMesh = new THREE.Mesh(cubeGeo, materialLambert)
     this.sphereMesh = new THREE.Mesh(sphereGeo, materialBasic)
-    this.cylindeMesh = new THREE.Mesh(cylindeGeo, materialPhong)
-    this.cubeMesh.position.set(0, 0, 0)
-    this.sphereMesh.position.set(0, 100, 0) //几何体中心位置
-    this.cylindeMesh.position.set(200, 0, 0)
-    this.scene.add(this.cubeMesh)
+    this.sphereMesh.position.set(0, 0, 0) //几何体中心位置
     this.scene.add(this.sphereMesh)
-    this.scene.add(this.cylindeMesh)
+
+    //line
+    // let geo = new THREE.Geometry()
+    // let arc = new THREE.ArcCurve(0, 0, 10, 0, 2 * Math.PI)
+    // let points = arc.getPoints(50)
+    // geo.setFromPoints(points)
+    // let material = new THREE.LineBasicMaterial({
+    //   color: 0xff0000,
+    // })
+    // this.line = new THREE.Line(geo, material)
+    // let V1 = new Vector3(0, 2, 0)
+    // this.line.position.set(100, 0, 0)
+    // this.line.rotateOnAxis(V1, Math.PI / 2)
+    // this.scene.add(this.line)
+
+    // 点模型
+    let geometry2 = new THREE.Geometry()
+    let o = new THREE.Vector3(0, 0, 0)
+    let p1 = new THREE.Vector3(102, 0, 0)
+    let p2 = new THREE.Vector3(0, 102, 0)
+    let cp = new THREE.Vector3().addVectors(p1, p2).divideScalar(2)
+    let l = p1.distanceTo(p2)
+    let L = cp.distanceTo(o)
+    let K = cp.multiplyScalar((l + L) / L)
+
+    geometry2.vertices.push(p1, p2, K)
+    let material2 = new THREE.PointsMaterial({
+      color: 0xff0000,
+      size: 10,
+    })
+    //点模型对象
+    let points = new THREE.Points(geometry2, material2)
+    this.scene.add(points) //点模型对象添加到场景中
+
+    //贝塞尔曲线
+    let geometry = new THREE.Geometry()
+    let curve = new THREE.QuadraticBezierCurve3(p1, K, p2)
+    let points1 = curve.getPoints(100) //分段数100，返回101个顶点
+    geometry.setFromPoints(points1)
+    //材质对象
+    let material = new THREE.LineBasicMaterial({
+      color: 0xff0000,
+    })
+    let line = new THREE.Line(geometry, material)
+    this.scene.add(line) //线条对象添加到场景中
   }
 
   renderGL() {
@@ -101,10 +132,9 @@ class Introduce extends React.Component {
     this.T1 = new Date()
     let t = this.T1 - this.T0
     this.T0 = this.T1
-    //console.log(t) // t = 16.7ms 16~17
     this.renderer.render(this.scene, this.camera) //执行渲染操作
-    this.cubeMesh.rotateY(0.001 * t) //每次绕y轴旋转0.01弧度 一周2PI 6.28 每秒转0.5
-    this.sphereMesh.rotateY(0.002 * t)
+    this.sphereMesh.rotateY(0.001 * t)
+    //this.line.rotateY(0.001 * t)
     requestAnimationFrame(this.renderGL.bind(this))
   }
 
