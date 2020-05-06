@@ -11,7 +11,7 @@ class LoginBackground extends React.Component {
   }
   componentDidMount() {
     this.chart = echarts.init(this.refs.chart)
-    window.addEventListener("resize", this.resize.bind(this))
+    window.onresize = this.resize.bind(this)
     this.initChart()
   }
 
@@ -21,7 +21,7 @@ class LoginBackground extends React.Component {
 
   componentWillUnmount() {
     this.chart.dispose()
-    window.removeEventListener("resize", this.resize)
+    window.onresize = null
   }
 
   initChart() {

@@ -51,8 +51,8 @@ class Introduce extends React.Component {
       this.scene.remove(this.scene.children[i])
     }
     window.cancelAnimationFrame(this.requestAnimationFrame)
-    window.removeEventListener("click", this.onClick)
-    window.removeEventListener("resize", this.resize)
+    document.removeEventListener("click", this.onClick)
+    window.onresize = null
   }
 
   async init() {
@@ -72,8 +72,8 @@ class Introduce extends React.Component {
     this.clock = new THREE.Clock()
     this.renderGL()
     new OrbitControls(this.camera, this.renderer.domElement)
-    window.addEventListener("click", this.onClick.bind(this))
-    window.addEventListener("resize", this.resize.bind(this))
+    document.addEventListener("click", this.onClick.bind(this), false)
+    window.onresize = this.resize.bind(this)
   }
 
   resize() {
