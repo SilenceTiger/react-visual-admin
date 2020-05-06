@@ -57,8 +57,34 @@ class LoginBackground extends React.Component {
           [180, -90],
         ],
       },
+      series: [
+        {
+          type: "effectScatter",
+          coordinateSystem: "geo",
+          zlevel: 2,
+          rippleEffect: {
+            //涟漪特效
+            period: 6, //动画时间，值越小速度越快
+            brushType: "stroke", //波纹绘制方式 stroke, fill
+            scale: 6, //波纹圆环最大限制，值越大波纹越大
+          },
+          symbol: "circle",
+          symbolSize: 10,
+          itemStyle: {
+            normal: {
+              show: false,
+              color: "yellow",
+            },
+          },
+          data: [[121.51585, 31.23045]], //也可以是 {name: 'aaa', value: [121,51585, 31.23045]}形式
+        },
+      ],
     }
     mapChart.setOption(mapOption)
+    let _data = []
+    for (let i = 0; i < 50; i++) {
+      _data.push(this.getRandomData())
+    }
     const option = {
       globe: {
         globeRadius: 80,
@@ -84,9 +110,41 @@ class LoginBackground extends React.Component {
           },
         ],
       },
-      series: [],
+      series: [
+        {
+          name: "lines3D",
+          type: "lines3D",
+          coordinateSystem: "globe",
+          effect: {
+            show: true,
+            period: 2,
+            trailWidth: 1,
+            trailLength: 0.5,
+            trailOpacity: 1,
+            trailColor: "#0087f4",
+          },
+          blendMode: "lighter",
+          lineStyle: {
+            width: 1,
+            color: "#0087f4",
+            opacity: 0,
+          },
+          data: _data,
+          silent: false,
+        },
+      ],
     }
     this.chart.setOption(option)
+  }
+
+  getRandomData() {
+    return {
+      coords: [
+        [Math.random() * 135.2, Math.random() * 53.33],
+        [121.51585, 31.23045],
+      ],
+      value: (Math.random() * 30).toFixed(2),
+    }
   }
 
   render() {

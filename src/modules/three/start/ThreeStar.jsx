@@ -52,6 +52,7 @@ class Introduce extends React.Component {
     }
     window.cancelAnimationFrame(this.requestAnimationFrame)
     window.removeEventListener("click", this.onClick)
+    window.removeEventListener("resize", this.resize)
   }
 
   async init() {
@@ -72,19 +73,20 @@ class Introduce extends React.Component {
     this.renderGL()
     new OrbitControls(this.camera, this.renderer.domElement)
     window.addEventListener("click", this.onClick.bind(this))
+    window.addEventListener("resize", this.resize.bind(this))
+  }
 
-    window.onresize = function () {
-      let width = this.refs.three.clientWidth
-      let height = this.refs.three.clientHeight
-      let k = width / height
-      let s = 300
-      this.renderer.setSize(width, height)
-      this.camera.left = -s * k
-      this.camera.right = s * k
-      this.camera.top = s
-      this.camera.bottom = -s
-      this.camera.updateProjectionMatrix()
-    }.bind(this)
+  resize() {
+    let width = this.refs.three.clientWidth
+    let height = this.refs.three.clientHeight
+    let k = width / height
+    let s = 300
+    this.renderer.setSize(width, height)
+    this.camera.left = -s * k
+    this.camera.right = s * k
+    this.camera.top = s
+    this.camera.bottom = -s
+    this.camera.updateProjectionMatrix()
   }
 
   initBackground() {
