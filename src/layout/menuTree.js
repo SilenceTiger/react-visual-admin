@@ -6,7 +6,7 @@ export default [
     icon: HomeOutlined,
   },
   {
-    name: "Three Start",
+    name: "Three Begin",
     key: "/three",
     icon: CodepenOutlined,
     subMenu: [
@@ -21,6 +21,10 @@ export default [
       {
         name: "Three Star",
         key: "/three/start/threeStar",
+      },
+      {
+        name: "UV Mapping",
+        key: "/three/start/uvMapping",
       },
     ],
   },

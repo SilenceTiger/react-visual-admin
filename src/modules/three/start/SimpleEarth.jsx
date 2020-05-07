@@ -2,7 +2,6 @@ import React from "react"
 import * as THREE from "three"
 import * as OrbitControls from "three-orbitcontrols"
 import delay from "../../../utils/delay"
-import { Vector3 } from "three"
 // const THREE = require("three")
 // const OrbitControls = require("three-orbitcontrols")
 // 两种引入方式都可以
