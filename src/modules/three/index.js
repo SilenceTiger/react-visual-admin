@@ -2,6 +2,7 @@ import Introduce from "./start/Introduce"
 import SimpleEarth from "./start/SimpleEarth"
 import ThreeStar from "./start/ThreeStar"
 import UVMapping from "./start/UVMapping"
+import MagicCube from "./start/MagicCube"
 export default {
   name: "three",
   routes: [
@@ -24,6 +25,11 @@ export default {
       name: "three",
       path: "/three/start/uvMapping",
       component: UVMapping,
+    },
+    {
+      name: "three",
+      path: "/three/start/magicCube",
+      component: MagicCube,
     },
   ],
 }
