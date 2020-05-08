@@ -1,4 +1,8 @@
-import { HomeOutlined, CodepenOutlined } from "@ant-design/icons"
+import {
+  HomeOutlined,
+  CodepenOutlined,
+  DeploymentUnitOutlined,
+} from "@ant-design/icons"
 export default [
   {
     name: "Home",
@@ -25,6 +29,17 @@ export default [
       {
         name: "UV Mapping",
         key: "/three/start/uvMapping",
+      },
+    ],
+  },
+  {
+    name: "Game",
+    key: "/game",
+    icon: DeploymentUnitOutlined,
+    subMenu: [
+      {
+        name: "Snake",
+        key: "/game/snake",
       },
     ],
   },
