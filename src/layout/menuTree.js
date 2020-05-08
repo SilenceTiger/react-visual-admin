@@ -26,6 +26,10 @@ export default [
         name: "UV Mapping",
         key: "/three/start/uvMapping",
       },
+      {
+        name: "Magic Cube",
+        key: "/three/start/magicCube",
+      },
     ],
   },
   // {
