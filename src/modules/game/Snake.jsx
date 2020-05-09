@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import "./snake.less"
-
-class Snake extends React.Component {
+// class 版本
+class Snake1 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -280,5 +280,254 @@ class Snake extends React.Component {
       </div>
     )
   }
+}
+
+// hooks 版本
+const Snake = () => {
+  const countRef = useRef(20)
+  const snakeRef = useRef()
+  const directionRef = useRef("R")
+  const targetRef = useRef([])
+  const timeRef = useRef(200)
+  const intervalRef = useRef(-1)
+  const [score, setScore] = useState(0)
+  const [pause, setPause] = useState(false)
+  const [end, setEnd] = useState(false)
+  const [endMsg, setEndMsg] = useState("")
+  const [mapData, setMapData] = useState([])
+
+  const exit = useCallback((p) => {
+    let _exit = false
+    snakeRef.current.forEach((e) => {
+      if (p[0] === e[0] && p[1] === e[1]) {
+        _exit = true
+        return
+      }
+    })
+    return _exit
+  }, [])
+
+  const createOneTarget = useCallback(() => {
+    var valid = false,
+      x,
+      y,
+      food,
+      number = Math.ceil(Math.random() * countRef.current * countRef.current)
+    while (!valid) {
+      x = (number - 1) % countRef.current
+      y = Math.ceil(number / countRef.current) - 1
+      food = [x, y]
+      if (exit(food)) {
+        number++
+        if (number > countRef.current * countRef.current) {
+          number = number - countRef.current * countRef.current
+        }
+      } else {
+        valid = true
+      }
+    }
+    setMapData((mapData) => {
+      mapData[y][x] = 2
+      return mapData
+    })
+    targetRef.current = food
+  }, [exit])
+
+  const createNewHead = useCallback(() => {
+    var _head = snakeRef.current[0]
+    var _newHead = []
+    switch (directionRef.current) {
+      case "U":
+        _newHead[0] = _head[0]
+        _newHead[1] = _head[1] - 1
+        break
+      case "D":
+        _newHead[0] = _head[0]
+        _newHead[1] = _head[1] + 1
+        break
+      case "L":
+        _newHead[0] = _head[0] - 1
+        _newHead[1] = _head[1]
+        break
+      case "R":
+        _newHead[0] = _head[0] + 1
+        _newHead[1] = _head[1]
+        break
+      default:
+        break
+    }
+    return _newHead
+  }, [])
+
+  const move = useCallback(() => {
+    let _newHead = createNewHead()
+    let _snake = JSON.parse(JSON.stringify(snakeRef.current))
+    let _tail = []
+    //是否超出边界
+    if (
+      _newHead[0] < 0 ||
+      _newHead[1] < 0 ||
+      _newHead[0] > countRef.current - 1 ||
+      _newHead[1] > countRef.current - 1
+    ) {
+      clearInterval(intervalRef.current)
+      setEnd(true)
+      setEndMsg("游戏结束！")
+      return
+    } else {
+      //是否撞到自己
+      if (exit(_newHead)) {
+        clearInterval(intervalRef.current)
+        setEnd(true)
+        setEndMsg("游戏结束！")
+        return
+      }
+    }
+    _snake.unshift(_newHead)
+    if (
+      targetRef.current.length === 2 &&
+      _newHead.join("-") === targetRef.current.join("-")
+    ) {
+      setScore((prevScore) => prevScore + 1)
+      if (_snake.length === countRef.current * countRef.current) {
+        clearInterval(intervalRef.current)
+        setEnd(true)
+        setEndMsg("You Win")
+      } else {
+        createOneTarget()
+      }
+    } else {
+      _tail = _snake.pop()
+    }
+    snakeRef.current = _snake
+    setMapData((mapData) => {
+      let _mapData = JSON.parse(JSON.stringify(mapData))
+      if (_newHead.length) {
+        _mapData[_newHead[1]][_newHead[0]] = 1
+      }
+      if (_tail.length) {
+        _mapData[_tail[1]][_tail[0]] = 0
+      }
+      return _mapData
+    })
+  }, [createNewHead, createOneTarget, exit])
+
+  const keydownEvent = useCallback(
+    (e) => {
+      switch (e.keyCode) {
+        case 38:
+          directionRef.current =
+            directionRef.current !== "D" ? "U" : directionRef.current
+          break
+        case 40:
+          directionRef.current =
+            directionRef.current !== "U" ? "D" : directionRef.current
+          break
+        case 37:
+          directionRef.current =
+            directionRef.current !== "R" ? "L" : directionRef.current
+          break
+        case 39:
+          directionRef.current =
+            directionRef.current !== "L" ? "R" : directionRef.current
+          break
+        case 32:
+          if (!end) {
+            setPause((pause) => !pause)
+            if (intervalRef.current === -1) {
+              intervalRef.current = setInterval(move, timeRef.current)
+            } else {
+              clearInterval(intervalRef.current)
+              intervalRef.current = -1
+            }
+          }
+          break
+        default:
+          break
+      }
+    },
+    [end, move]
+  )
+
+  const initMap = useCallback(() => {
+    snakeRef.current = [
+      [4, 0],
+      [3, 0],
+      [2, 0],
+      [1, 0],
+      [0, 0],
+    ]
+
+    let _data = []
+    for (let i = 0; i < countRef.current; i++) {
+      let _row = []
+      for (let j = 0; j < countRef.current; j++) {
+        _row.push(0)
+      }
+      _data.push(_row)
+    }
+    snakeRef.current.forEach((e) => {
+      _data[e[1]][e[0]] = 1
+    })
+    setMapData(_data)
+    createOneTarget()
+  }, [createOneTarget])
+
+  useEffect(() => {
+    initMap()
+  }, [initMap])
+
+  useEffect(() => {
+    intervalRef.current = setInterval(move, timeRef.current)
+    return () => {
+      clearInterval(intervalRef.current)
+    }
+  }, [move])
+
+  useEffect(() => {
+    window.addEventListener("keydown", keydownEvent)
+    return () => {
+      window.removeEventListener("keydown", keydownEvent)
+    }
+  }, [keydownEvent])
+
+  const reset = () => {
+    clearInterval(intervalRef.current)
+    directionRef.current = "R"
+    intervalRef.current = setInterval(move, timeRef.current)
+    setScore(0)
+    setEnd(false)
+    setEndMsg("")
+    setPause(false)
+    initMap()
+  }
+
+  return (
+    <div className="snake-container">
+      <table>
+        <tbody>
+          {mapData.map((row, i) => (
+            <tr key={i}>
+              {row.map((cell, j) => (
+                <td
+                  key={i + "-" + j}
+                  className={
+                    (cell === 1 ? "active" : "") +
+                    " " +
+                    (cell === 2 ? "target" : "")
+                  }
+                ></td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p>空格暂停 上下左右移动</p>
+      <button onClick={reset}>重新开始</button>
+      <p className="score">得分：{score}</p>
+      {end ? <p className="msg">{endMsg}</p> : null}
+      {pause ? <p className="msg">暂停中...</p> : null}
+    </div>
+  )
 }
 export default Snake
