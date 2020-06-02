@@ -3,6 +3,7 @@ import SimpleEarth from "./start/SimpleEarth"
 import ThreeStar from "./start/ThreeStar"
 import UVMapping from "./start/UVMapping"
 import MagicCube from "./start/MagicCube"
+import VRMLoader from "./start/VRMLoader"
 export default {
   name: "three",
   routes: [
@@ -30,6 +31,11 @@ export default {
       name: "three",
       path: "/three/start/magicCube",
       component: MagicCube,
+    },
+    {
+      name: "three",
+      path: "/three/start/VRMLoader",
+      component: VRMLoader,
     },
   ],
 }

@@ -2,6 +2,7 @@ import {
   HomeOutlined,
   CodepenOutlined,
   DeploymentUnitOutlined,
+  PieChartOutlined,
 } from "@ant-design/icons"
 export default [
   {
@@ -34,6 +35,10 @@ export default [
         name: "Magic Cube",
         key: "/three/start/magicCube",
       },
+      {
+        name: "VRM Loader",
+        key: "/three/start/vrmloader",
+      },
     ],
   },
   {
@@ -47,15 +52,15 @@ export default [
       },
     ],
   },
-  // {
-  //   name: "Echarts",
-  //   key: "/echarts",
-  //   icon: SettingFilled,
-  //   subMenu: [
-  //     {
-  //       name: "Earth",
-  //       key: "/echarts/earth",
-  //     },
-  //   ],
-  // },
+  {
+    name: "Echarts",
+    key: "/echarts",
+    icon: PieChartOutlined,
+    subMenu: [
+      {
+        name: "Liquid Fill",
+        key: "/echarts/liquidfill",
+      },
+    ],
+  },
 ]
