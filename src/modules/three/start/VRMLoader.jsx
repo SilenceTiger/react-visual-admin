@@ -12,7 +12,8 @@ class Woman extends React.Component {
     this.scene = null
     this.renderer = null
     this.camera = null
-    this.cubeMesh = null
+    this.mesh = null
+    this.clock = new THREE.Clock()
   }
 
   componentDidMount() {
@@ -21,7 +22,7 @@ class Woman extends React.Component {
 
   async init() {
     this.scene = new THREE.Scene()
-    this.scene.background = new THREE.Color(0xffffff)
+    this.scene.background = new THREE.Color(0x000000)
 
     //辅助坐标系
     let axisHelper = new THREE.AxisHelper(250)
@@ -51,10 +52,6 @@ class Woman extends React.Component {
     this.renderer.render(this.scene, this.camera)
     window.addEventListener("resize", this.onWindowResize.bind(this), false)
     this.loadModel()
-    // this.renderGL()
-    // new OrbitControls(this.camera, this.renderer.domElement)
-    // let controls = new OrbitControls(this.camera, this.renderer.domElement)
-    // controls.addEventListener("change", this.renderGL.bind(this))
   }
 
   onWindowResize() {
@@ -95,12 +92,14 @@ class Woman extends React.Component {
           }
         }
       })
-      that.scene.add(vrm.scene)
+      that.mesh = vrm.scene
+      that.scene.add(that.mesh)
       that.renderGL()
     })
   }
 
   renderGL() {
+    this.mesh.rotateY(this.clock.getDelta())
     this.renderer.render(this.scene, this.camera) //执行渲染操作
     requestAnimationFrame(this.renderGL.bind(this))
   }

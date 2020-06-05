@@ -63,4 +63,15 @@ export default [
       },
     ],
   },
+  {
+    name: "D3",
+    key: "/d3",
+    icon: PieChartOutlined,
+    subMenu: [
+      {
+        name: "Force Graph",
+        key: "/d3/forceGraph",
+      },
+    ],
+  },
 ]
