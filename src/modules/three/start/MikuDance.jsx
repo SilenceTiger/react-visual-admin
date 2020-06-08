@@ -21,6 +21,8 @@ class MikuDance extends React.Component {
     this.mesh = null
     this.effect = null
     this.helper = null
+    this.listener = null
+    this.requestAnimationFrame = null
     this.clock = new THREE.Clock()
   }
 
@@ -89,12 +91,12 @@ class MikuDance extends React.Component {
           animation: cameraAnimation,
         })
         new THREE.AudioLoader().load(audioFile, function (buffer) {
-          var listener = new THREE.AudioListener()
-          var audio = new THREE.Audio(listener).setBuffer(buffer)
-          listener.position.z = 1
+          that.listener = new THREE.AudioListener()
+          let audio = new THREE.Audio(that.listener).setBuffer(buffer)
+          that.listener.position.z = 1
           that.helper.add(audio, audioParams)
           that.scene.add(audio)
-          that.scene.add(listener)
+          that.scene.add(that.listener)
           that.scene.add(that.mesh)
           that.renderGL()
         })
@@ -102,10 +104,27 @@ class MikuDance extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    try {
+      this.helper.audio.stop()
+    } catch {
+      setTimeout(() => {
+        try {
+          this.helper.audio.stop()
+        } catch (e) {
+          console.log(e)
+        }
+      }, audioParams.delayTime * 1000)
+    }
+    this.scene.children = []
+    window.removeEventListener("resize", this.onWindowResize.bind(this), false)
+    window.cancelAnimationFrame(this.requestAnimationFrame)
+  }
+
   renderGL() {
     this.helper.update(this.clock.getDelta())
     this.effect.render(this.scene, this.camera)
-    requestAnimationFrame(this.renderGL.bind(this))
+    this.requestAnimationFrame = requestAnimationFrame(this.renderGL.bind(this))
   }
 
   render() {

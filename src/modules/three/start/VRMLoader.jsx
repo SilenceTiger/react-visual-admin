@@ -4,7 +4,7 @@ import * as OrbitControls from "three-orbitcontrols"
 import delay from "../../../utils/delay"
 import { VRMLoader } from "three/examples/jsm/loaders/VRMLoader"
 const LOADER = new VRMLoader()
-const MODEL = require("../../../threePlugins/models/vrm/Alicia/AliciaSolid.vrm")
+const MODEL = "models/vrm/Alicia/AliciaSolid.vrm"
 
 class Woman extends React.Component {
   constructor(props) {
@@ -101,7 +101,12 @@ class Woman extends React.Component {
   renderGL() {
     this.mesh.rotateY(this.clock.getDelta())
     this.renderer.render(this.scene, this.camera) //执行渲染操作
-    requestAnimationFrame(this.renderGL.bind(this))
+    this.requestAnimationFrame = requestAnimationFrame(this.renderGL.bind(this))
+  }
+
+  componentWillUnmount() {
+    window.cancelAnimationFrame(this.requestAnimationFrame)
+    window.removeEventListener("resize", this.onWindowResize.bind(this), false)
   }
 
   render() {
