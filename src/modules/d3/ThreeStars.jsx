@@ -8,9 +8,9 @@ const ELLIPSE = {
   b: 300,
   c: 400,
 }
-const t = 10 //月亮绕地球一周时间为t
-const T = 100 //地球绕太阳一周时间为T,
-const d_t = 1 / 60 //60帧
+const t = 5 * 1000 //月亮绕地球一周时间为t
+const T = 20 * 1000 //地球绕太阳一周时间为T,
+const d_t = (1 / 60) * 1000 //60帧
 const PI = Math.PI
 const d_cita = (2 * PI * d_t) / T //地球相对太阳的角度变化量
 const d_beta = (2 * PI * d_t) / t //月亮相对地球的角度变化量

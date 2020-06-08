@@ -4,6 +4,7 @@ import ThreeStar from "./start/ThreeStar"
 import UVMapping from "./start/UVMapping"
 import MagicCube from "./start/MagicCube"
 import VRMLoader from "./start/VRMLoader"
+import MikuDance from "./start/MikuDance"
 export default {
   name: "three",
   routes: [
@@ -36,6 +37,11 @@ export default {
       name: "three",
       path: "/three/start/VRMLoader",
       component: VRMLoader,
+    },
+    {
+      name: "three",
+      path: "/three/start/mikuDance",
+      component: MikuDance,
     },
   ],
 }

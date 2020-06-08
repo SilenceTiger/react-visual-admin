@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import delay from "../../utils/delay"
 import { Ball, Vector2, getForce, getA, getSpeed, getS } from "./Ball"
 
-const d_t = 1 / 60
+const d_t = 1
 
 class CustomForce extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class CustomForce extends React.Component {
       10,
       "blue",
       new Vector2(this.center.x + 200, this.center.y),
-      new Vector2(10, -20)
+      new Vector2(1, 1)
     )
 
     this.addCircle(svg, "sun", this.sun)

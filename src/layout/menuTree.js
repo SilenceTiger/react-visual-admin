@@ -40,6 +40,10 @@ export default [
         name: "VRM Loader",
         key: "/three/start/vrmloader",
       },
+      {
+        name: "Miku Dance",
+        key: "/three/start/mikuDance",
+      },
     ],
   },
   {

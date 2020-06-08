@@ -5,16 +5,12 @@ import delay from "../../utils/delay"
 const data = require("./data/force-graph.json")
 
 class ForceGraph extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-
   componentDidMount() {
     this.init()
   }
 
   async init() {
-    await delay(100)
+    await delay(10)
     const width = this.refs.force.clientWidth
     const height = this.refs.force.clientHeight
     const nodes = deepCopy(data.nodes)

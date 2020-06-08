@@ -1,4 +1,4 @@
-const G = 8 //万有引力常数
+const G = 0.05 //万有引力常数
 
 export const Ball = function (m, r, color, location, speed) {
   this.m = m
