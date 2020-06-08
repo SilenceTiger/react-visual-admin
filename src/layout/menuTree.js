@@ -3,6 +3,7 @@ import {
   CodepenOutlined,
   DeploymentUnitOutlined,
   PieChartOutlined,
+  DotChartOutlined,
 } from "@ant-design/icons"
 export default [
   {
@@ -66,8 +67,20 @@ export default [
   {
     name: "D3",
     key: "/d3",
-    icon: PieChartOutlined,
+    icon: DotChartOutlined,
     subMenu: [
+      {
+        name: "Ellipse Rotaion",
+        key: "/d3/ellipseRotaion",
+      },
+      {
+        name: "2D three stars",
+        key: "/d3/threeStars",
+      },
+      {
+        name: "Custom Force",
+        key: "/d3/customForce",
+      },
       {
         name: "Force Graph",
         key: "/d3/forceGraph",
